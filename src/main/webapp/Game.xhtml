@@ -3,28 +3,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-
 <h:head>
     <title>Dritan Hangman v1 beta</title>
 </h:head>
-
-<h:body>
-    <h:form>
-
-        <p:panel header="Game">
-            <h:panelGrid columns="2" cellpadding="4">
-                <p:commandButton value="Initialize" actionListener="#{game.onInitializeGame}" />
-                <h:outputText value="Word to guess:" /><h:outputText value="#{game.maskedWord}" />
-            </h:panelGrid>
+<h:body style="max-width: 50%; margin: auto; padding: 25px;">
+    <h:form id="form">
+        <p:panel header="Game board">
+            <p:commandButton value="Initialize">
+                <p:ajax event="click" update="form" listener="#{game.onInitializeGame}" />
+            </p:commandButton>
+            <div style="float: right;">
+                <h:outputText id="maskedWord" value="#{game.maskedWord}" />
+            </div>
+            <h:outputText
+                rendered="#{game.gameCompleted}"
+                escape="false"
+                style="display: block; color: green; text-align: center; padding: 20px;"
+                value="Congrats, you guess the word &lt;strong&gt;#{game.getMaskedWord()}&lt;/strong&gt; after &lt;strong&gt;#{game.tries}&lt;/strong&gt; attempts!"
+            />
         </p:panel>
-
-        <p:panel header="Commands">
-            <h:panelGrid columns="2" cellpadding="4">
-                <h:outputText value="Try typing a letter:" />
-                <p:inputText value="#{game.lastEnteredLetter}" maxlength="1" />
-            </h:panelGrid>
+        <p:panel header="Play now!" rendered="#{not game.gameCompleted and game.gameInitialized}" style="margin-top: 10px;">
+            <h:outputText value="Try typing the #{game.tries} letter: " />
+            <p:inputText value="#{game.lastEnteredLetter}">
+                <p:ajax event="keyup" update="form" />
+            </p:inputText>
         </p:panel>
-
     </h:form>
 </h:body>
 </html>

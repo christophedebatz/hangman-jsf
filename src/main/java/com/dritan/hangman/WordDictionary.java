@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
-public class WordDictionary implements Supplier<String> {
+class WordDictionary implements Supplier<String> {
 
     private static String WORDS_FILE = "/words.txt";
     private static List<String> dictionary = new ArrayList<>();
@@ -25,7 +25,6 @@ public class WordDictionary implements Supplier<String> {
                 while (scanner.hasNextLine()) {
                     dictionary.add(scanner.nextLine());
                 }
-                scanner.close();
             }
         }
         final Random rand = new Random();
